@@ -134,16 +134,64 @@ const sortAPI = {
    }                   
   },
 
+  quickSort (arr) {
+    quickSort(arr);
+    
+    function swap(arr, firstIndex, secondIndex){
+      const temp = arr[firstIndex];
+      arr[firstIndex] = arr[secondIndex];
+      arr[secondIndex] = temp;
+    }
+    
+    function partition(arr, left, right,) {
+      
+      var pivot = arr[Math.floor((right + left) / 2)],
+          i = left,
+          j = right;
+      while (i <= j) {
+          while (comparationColor(pivot, arr[i])) {
+              i++;
+          }
+          while (comparationColor(arr[j], pivot)) {
+              j--;
+          }
+          if (i <= j) {
+              swap(arr, i, j);
+              i++;
+              j--;
+          }
+      }
+      return i;
+    }
+    function quickSort(arr, left, right) {
+      var index;
+      if (arr.length > 1) {
+          left = typeof left != "number" ? 0 : left;
+          right = typeof right != "number" ? arr.length - 1 : right;
+          index = partition(arr, left, right);
+          if (left < index - 1) {
+              quickSort(arr, left, index - 1);
+          }
+          if (index < right) {
+              quickSort(arr, index, right);
+          }
+      }
+      return arr;
+    }
+    }
+  ,
+
   // выполняет сортировку и производит замер времени
   startSort(sort, arr, comparation) {
 
     const start = new Date().getTime();
     // добавил переход на функцию quikSort внешнюю
-    if (sort == 'bubbleSort') {
+    //if (sort == 'bubbleSort') {
     sort(arr, comparation);
-    } else {
-      quickSort(fruits);
-    }
+    //} else {
+      //quickSort(fruits);
+     // quickSortCall (fruits);
+    //}
     const end = new Date().getTime();
     sortTime = `${end - start} ms`;
   },
@@ -183,48 +231,7 @@ addActionButton.addEventListener('click', () => {
   }  
 });
 
-// отдельно прописал quick sort, тк не разобрался как правильно записать в объект 'const sortAPI'
-function swap(items, firstIndex, secondIndex){
-  const temp = items[firstIndex];
-  items[firstIndex] = items[secondIndex];
-  items[secondIndex] = temp;
-}
 
-function partition(items, left, right,) {
-  
-  var pivot = items[Math.floor((right + left) / 2)],
-      i = left,
-      j = right;
-  while (i <= j) {
-      while (comparationColor(pivot, items[i])) {
-          i++;
-      }
-      while (comparationColor(items[j], pivot)) {
-          j--;
-      }
-      if (i <= j) {
-          swap(items, i, j);
-          i++;
-          j--;
-      }
-  }
-  return i;
-}
 
-function quickSort(items, left, right) {
-  var index;
-  if (items.length > 1) {
-      left = typeof left != "number" ? 0 : left;
-      right = typeof right != "number" ? items.length - 1 : right;
-      index = partition(items, left, right);
-      if (left < index - 1) {
-          quickSort(items, left, index - 1);
-      }
-      if (index < right) {
-          quickSort(items, index, right);
-      }
-  }
-  return items;
-}
 
 
